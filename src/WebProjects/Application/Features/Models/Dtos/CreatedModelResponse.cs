@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Brands.Dtos;
+namespace Application.Features.Models.Dtos;
 
-public class CreatedBrandResponse:IResponse
+public class CreatedModelResponse : IResponse
 {
+    public int BrandId { get; set; }
     public string Name { get; set; }
-    public DateTime CreatedDate { get; set; }
 }

@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Brands.Dtos;
 
-public class CreatedBrandResponse:IResponse
+public class DeletedBrandResponse:IResponse
 {
-    public string Name { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public int Id { get; set; }
 }

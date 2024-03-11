@@ -1,4 +1,5 @@
 ﻿using Application.Services.Repositories;
+using DataAccess.Concretes.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,8 @@ public static class PersistenceServiceRegistration
             options.UseSqlServer(configuration.GetConnectionString("Tobeto3ANArch")));
 
         services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<IModelRepository, ModelRepository>();
 
         return services;
     }
