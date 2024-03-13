@@ -26,7 +26,7 @@ public class PerformanceBahvior<TRequest, TResponse> : IPipelineBehavior<TReques
             _stopwatch.Start();
             response = await next();
         }
-        catch (Exception e)
+        finally
         {
             if (_stopwatch.Elapsed.TotalSeconds > request.Interval)
             {
@@ -34,12 +34,10 @@ public class PerformanceBahvior<TRequest, TResponse> : IPipelineBehavior<TReques
                 Debug.WriteLine(message);
                 _logger.LogInformation(message);
             }
-        }
-        finally
-        {
+
             _stopwatch.Restart();
         }
 
-        return await next();    //response yapınca çalışmıyor nedense ?
+        return response;   //response yapınca çalışmıyor nedense ?
     }
 }

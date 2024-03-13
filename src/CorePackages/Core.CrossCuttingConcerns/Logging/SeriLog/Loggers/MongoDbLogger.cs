@@ -10,14 +10,26 @@ public class MongoDbLogger:LoggerServiceBase
 {
     private IConfiguration _configuration;
 
-    public MongoDbLogger()
+    //public MongoDbLogger()
+    //{
+    //    var configuration = ServiceTool.ServiceProvider.GetRequiredService<IConfiguration>();
+    //    MongoDbConfiguration? dbConfiguration = configuration.GetSection("SerilogConfigurations:MongoDbConfiguration")
+    //        .Get<MongoDbConfiguration>() ?? throw new Exception("");
+
+    //    Logger = new LoggerConfiguration().WriteTo.MongoDB(dbConfiguration.ConnectionString, collectionName: dbConfiguration.Collection).CreateLogger();
+
+
+    //}
+
+    public MongoDbLogger(IConfiguration configuration)
     {
-        var configuration = ServiceTool.ServiceProvider.GetRequiredService<IConfiguration>();
-        MongoDbConfiguration? dbConfiguration = configuration.GetSection("SerilogConfigurations:MongoDbConfiguration")
-            .Get<MongoDbConfiguration>() ?? throw new Exception("");
+        _configuration = configuration;
 
-        Logger = new LoggerConfiguration().WriteTo.MongoDB(dbConfiguration.ConnectionString, collectionName: dbConfiguration.Collection).CreateLogger();
+        var logConfig = configuration.GetSection("SeriLogConfigurations:MongoDbConfiguration")
+            .Get<MongoDbConfiguration>();
 
-
+        Logger = new LoggerConfiguration()
+            .WriteTo.MongoDB(logConfig.ConnectionString, collectionName: logConfig.Collection)
+            .CreateLogger();
     }
 }
