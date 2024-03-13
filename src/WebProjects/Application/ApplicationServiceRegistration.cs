@@ -1,6 +1,14 @@
-﻿using Core.Application.Rules;
-using Microsoft.Extensions.Configuration;
+﻿using Core.Application.Pipelines.Logging;
+using Core.Application.Pipelines.Performance;
+using Core.Application.Pipelines.Validation;
+using Core.Application.Rules;
+using Core.CrossCuttingConcerns.Logging.SeriLog;
+using Core.CrossCuttingConcerns.Logging.SeriLog.Loggers;
+using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Application;
@@ -12,8 +20,19 @@ public static class ApplicationServiceRegistration
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddScoped<Stopwatch>();
+
+        services.AddSingleton<LoggerServiceBase, MongoDbLogger>();
+        services.AddSingleton<IHttpContextAccessor , HttpContextAccessor>();
+
 
         services.AddSubClassesOfType(Assembly.GetExecutingAssembly(), typeof(BaseBusinessRules));
+
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBahvior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
         return services;
     }
