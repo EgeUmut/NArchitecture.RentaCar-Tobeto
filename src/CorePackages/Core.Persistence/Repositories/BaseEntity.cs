@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Persistence.Repositories;
 
-public class BaseEntity<TId>
+public class BaseEntity<TId>: IEntityTimestamps
 {
     public TId Id { get; set; }
     public DateTime? CreatedDate { get; set; }
@@ -19,11 +19,8 @@ public class BaseEntity<TId>
         
     }
 
-    public BaseEntity(TId ıd, DateTime? createdDate, DateTime? updatedDate, DateTime? deletedDate)
+    public BaseEntity(TId ıd)
     {
         Id = ıd;
-        CreatedDate = createdDate;
-        UpdatedDate = updatedDate;
-        DeletedDate = deletedDate;
     }
 }
