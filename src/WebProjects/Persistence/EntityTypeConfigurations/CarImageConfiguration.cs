@@ -16,6 +16,7 @@ public class CarImageConfiguration : IEntityTypeConfiguration<CarImage>
         builder.Property(p => p.DeletedDate).HasColumnName("DeletedDate");
         builder.Property(p => p.UpdatedDate).HasColumnName("UpdatedDate");
 
+        builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
 
         builder.HasOne(p => p.Car);
     }

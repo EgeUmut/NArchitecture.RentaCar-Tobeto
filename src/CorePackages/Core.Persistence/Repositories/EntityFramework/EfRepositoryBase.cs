@@ -46,7 +46,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
         return await queryable.FirstOrDefaultAsync(predicate);
     }
 
-    public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate = null,
+    public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, bool withDeleted = false)
     {
         IQueryable<TEntity> queryable = Query();
@@ -54,6 +54,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
             queryable = include(queryable);
         if (withDeleted)
             queryable = queryable.IgnoreQueryFilters();
+            //queryable = queryable.Where(e => e.DeletedDate == null);
         if (predicate != null)
             queryable = queryable.Where(predicate);
         return await queryable.ToListAsync();
