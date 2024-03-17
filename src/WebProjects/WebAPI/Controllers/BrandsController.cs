@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         [HttpGet("GetListPagination")]
         public async Task<IActionResult> GetListPagination([FromQuery] PageRequest pageRequest)
         {
-            GetListPaginayionBrandQuery query = new() { PageRequest = pageRequest };
+            GetListPaginationBrandQuery query = new() { PageRequest = pageRequest };
             return Created("", await Mediator.Send(query));
         }
 
@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("GetById")]
-        public async Task<IActionResult> GetById([FromQuery] GetByIdBrandQuery query)
+        public async Task<IActionResult> GetById([FromBody] GetByIdBrandQuery query)
         {
             return Created("", await Mediator.Send(query));
         }
