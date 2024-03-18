@@ -11,7 +11,7 @@ public class GetListBrandResponse:IResponse
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    DateTime? CreatedDate { get; set; }
-    DateTime? UpdatedDate { get; set; }
-    DateTime? DeletedDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
+    public DateTime? UpdatedDate { get; set; }
+    public DateTime? DeletedDate { get; set; }
 }
