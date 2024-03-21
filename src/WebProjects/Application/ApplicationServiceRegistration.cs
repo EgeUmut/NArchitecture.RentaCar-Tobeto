@@ -46,7 +46,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<ICarImageService, CarImageManager>();
         services.AddScoped<IUserService, UserManager>();
         services.AddScoped<IAuthService, AuthManager>();
-        services.AddSingleton<TokenOptions>();
+
 
         return services;
     }

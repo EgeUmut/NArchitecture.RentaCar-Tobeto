@@ -1,4 +1,5 @@
-﻿using Application.Services.CarImageService;
+﻿using Application.Features.CarImages.Commands.Create;
+using Application.Services.CarImageService;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,12 @@ namespace WebAPI.Controllers
             carImage.CarId = CarId;
             var result = await _carImageService.Add(file, carImage);
             return Ok(result);
+        }
+
+        [HttpPost("AddCommand")]
+        public async Task<IActionResult> Add([FromForm] CreateCarImageCommand command)
+        {
+            return Created("", await Mediator.Send(command));
         }
 
         [HttpDelete("Delete")]

@@ -24,10 +24,19 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
 
     public async Task<TEntity> AddAsync(TEntity entity)
     {
-        entity.CreatedDate = DateTime.UtcNow;
-        await _context.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return entity;
+        try
+        {
+            entity.CreatedDate = DateTime.UtcNow;
+            await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+        catch (Exception e)
+        {
+
+            throw e;
+        }
+
     }
 
     public async Task<TEntity> DeleteAsync(TEntity entity, bool permanent = false)
@@ -54,7 +63,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
             queryable = include(queryable);
         if (withDeleted)
             queryable = queryable.IgnoreQueryFilters();
-            //queryable = queryable.Where(e => e.DeletedDate == null);
+        //queryable = queryable.Where(e => e.DeletedDate == null);
         if (predicate != null)
             queryable = queryable.Where(predicate);
         return await queryable.ToListAsync();
@@ -76,8 +85,8 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
             queryable = include(queryable);
         if (predicate != null)
             queryable = queryable.Where(predicate);
-        if(orderby != null)
-            return await orderby(queryable).ToPaginateAsync(index, size,0,cancellationToken);
+        if (orderby != null)
+            return await orderby(queryable).ToPaginateAsync(index, size, 0, cancellationToken);
 
         return await queryable.ToPaginateAsync(index, size, 0, cancellationToken);
     }
