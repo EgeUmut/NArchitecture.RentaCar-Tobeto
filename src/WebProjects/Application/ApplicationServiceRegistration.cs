@@ -1,4 +1,6 @@
-﻿using Application.Services.CarImageService;
+﻿using Application.Services.AuthServices.AuthService;
+using Application.Services.AuthServices.UserService;
+using Application.Services.CarImageService;
 using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
 using Core.Application.Pipelines.Logging;
@@ -7,6 +9,7 @@ using Core.Application.Pipelines.Validation;
 using Core.Application.Rules;
 using Core.CrossCuttingConcerns.Logging.SeriLog;
 using Core.CrossCuttingConcerns.Logging.SeriLog.Loggers;
+using Core.Security.JWT;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -34,13 +37,16 @@ public static class ApplicationServiceRegistration
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBahvior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheRemovingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
 
         services.AddScoped<ICarImageService, CarImageManager>();
+        services.AddScoped<IUserService, UserManager>();
+        services.AddScoped<IAuthService, AuthManager>();
+        services.AddSingleton<TokenOptions>();
 
         return services;
     }

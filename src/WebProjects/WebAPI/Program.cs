@@ -2,6 +2,7 @@ using Persistence;
 using Application;
 using Core.CrossCuttingConcerns.Exceptions.Extensions;
 using Core.CrossCuttingConcerns.Utilities.IoC;
+using Core.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.AddSecurityServices();
 
 builder.Services.AddStackExchangeRedisCache(opt => opt.Configuration = "localhost:6379");
 

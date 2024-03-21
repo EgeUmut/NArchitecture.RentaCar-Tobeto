@@ -4,13 +4,13 @@ using System.Diagnostics;
 
 namespace Core.Application.Pipelines.Performance;
 
-public class PerformanceBahvior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class PerformanceBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>, IIntervalRequest
 {
-    private readonly ILogger<PerformanceBahvior<TRequest, TResponse>> _logger;
+    private readonly ILogger<PerformanceBehavior<TRequest, TResponse>> _logger;
     private readonly Stopwatch _stopwatch;
 
-    public PerformanceBahvior(ILogger<PerformanceBahvior<TRequest, TResponse>> logger, Stopwatch stopwatch)
+    public PerformanceBehavior(ILogger<PerformanceBehavior<TRequest, TResponse>> logger, Stopwatch stopwatch)
     {
         _logger = logger;
         _stopwatch = stopwatch;
